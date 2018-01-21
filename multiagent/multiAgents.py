@@ -208,14 +208,13 @@ class MinimaxAgent(MultiAgentSearchAgent):
         	if agentIndex == 0: 	# Pacman
         		bestActn=actions[0]
         		v = -999999
-        		print len(actions),"==============================="
+        		# print len(actions),"==============================="
         		for actn in actions:
         			t = minVal(state.generateSuccessor(agentIndex, actn),depth,(agentIndex+1)%numAgents)
-        			print actn,t
         			if v < t: 		# Max agent
         				v=t
         				bestActn = actn	
-        		print bestActn
+        		# print bestActn
         		return bestActn
         	
         	else :					# Ghost
@@ -341,23 +340,23 @@ def betterEvaluationFunction(currentGameState):
     numC = len(Capsules)
 
     fdist = []
-    minGdist = 9999
-    minCdist = 9999
+    minGdist = 99999
+    minCdist = 99999
 
     for gpos in GhostPos:
     	minGdist = min(minGdist, manhattanDistance(Pos,gpos))
 
     val = 0
     # print ScaredTimes
-    if minGdist < 2:
-    	val = val -9999
+    if minGdist <= 2:
+    	val = val -99999
 
     for f in Foods.asList():
     	fdist.append(manhattanDistance(Pos,f))
     fdist.sort()
 
     fscore=0
-    for i in range(0,min(10,len(fdist))):
+    for i in range(0,min(5,len(fdist))):
     	fscore += (5.0/(i+1))*fdist[i]
 
     for c in Capsules:
@@ -367,12 +366,12 @@ def betterEvaluationFunction(currentGameState):
     # 	val = val +10
 
     if numF < 1:
-    	val = val +9999
+    	val = val +99999
 
-    val = val + 2*max(4,minGdist) -3.5*numC - 50*numF +10/numF - fscore
+    val = val -200*numC - 50*numF  - fscore
 
     # print currentGameState
-    print val 
+    # print val 
     return val 
 
 # Abbreviation
